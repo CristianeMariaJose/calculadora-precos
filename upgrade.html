@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upgrade Necessário - Calculadora de Preços</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding-top: 50px;
+        }
+        .upgrade-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .logo h1 {
+            color: #007bff;
+            font-weight: bold;
+        }
+        .plan-comparison {
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+        .current-plan {
+            background-color: #f8f9fa;
+            border-left: 4px solid #6c757d;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .recommended-plan {
+            background-color: #e8f4ff;
+            border-left: 4px solid #007bff;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="upgrade-container">
+            <div class="logo">
+                <h1>PrecificaMKT</h1>
+                <p class="text-muted">Upgrade Necessário</p>
+            </div>
+            
+            <div class="alert alert-warning" role="alert">
+                <h4 class="alert-heading">Recurso não disponível!</h4>
+                <p>{{ mensagem }}</p>
+            </div>
+            
+            <div class="plan-comparison">
+                <h5>Seu plano atual:</h5>
+                <div class="current-plan">
+                    {% if plano_atual == "demo" %}
+                    <h4>Demo</h4>
+                    <ul>
+                        <li>Acesso a 1 marketplace (Mercado Livre)</li>
+                        <li>Funcionalidades básicas</li>
+                        <li>Sem monitor de preços</li>
+                    </ul>
+                    {% elif plano_atual == "basic" %}
+                    <h4>Básico</h4>
+                    <ul>
+                        <li>Acesso a 2 marketplaces</li>
+                        <li>Funcionalidades básicas</li>
+                        <li>Sem monitor de preços</li>
+                    </ul>
+                    {% endif %}
+                </div>
+                
+                <h5>Plano recomendado:</h5>
+                <div class="recommended-plan">
+                    <h4>Profissional</h4>
+                    <ul>
+                        <li>Acesso a 5 marketplaces</li>
+                        <li>Monitor de preços completo</li>
+                        <li>Versão instalável (PWA)</li>
+                        <li>Atualizações automáticas de taxas</li>
+                    </ul>
+                    <p class="fw-bold">R$ 49,90/mês</p>
+                </div>
+            </div>
+            
+            <div class="text-center">
+                <a href="/" class="btn btn-primary btn-lg">Ver Planos e Fazer Upgrade</a>
+                <p class="mt-3">
+                    <a href="/app" class="text-muted">Voltar para a calculadora</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+[
+  {
+    "nome": "Teste Manus",
+    "email": "teste@manus.ai",
+    "whatsapp": "(11) 98765-4321",
+    "data_cadastro": "2025-05-30 20:09:22",
+    "pagamento_confirmado": true,
+    "licenca_enviada": true,
+    "data_confirmacao": "2025-05-30 20:11:38",
+    "data_envio": "2025-05-30 20:12:12"
+  },
+  {
+    "nome": "Cristiane Alves de Azevedo",
+    "email": "cristianealvesazevedo78@gmail.com",
+    "whatsapp": "(16) 9 9445-4641",
+    "data_cadastro": "2025-05-31 19:30:27",
+    "pagamento_confirmado": false,
+    "licenca_enviada": false
+  },
+  {
+    "id": 3,
+    "nome": "Teste MongoDB",
+    "email": "teste@mongodb.com",
+    "whatsapp": "11999998888",
+    "data_cadastro": "2025-06-06 20:10:01",
+    "pagamento_confirmado": true,
+    "licenca_enviada": true,
+    "data_confirmacao": "2025-06-06 20:10:25",
+    "data_envio": "2025-06-06 20:10:33"
+  }
+]

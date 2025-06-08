@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#007bff">
+    <title>Calculadora de Preços Marketplace</title>
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" type="image/png" href="/static/icons/icon-192x192.png">
+    <link rel="apple-touch-icon" href="/static/icons/icon-192x192.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { 
+            padding: 15px;
+            font-size: 16px;
+        }
+        .form-section { 
+            margin-bottom: 20px; 
+            padding: 15px; 
+            border: 1px solid #dee2e6; 
+            border-radius: 5px; 
+        }
+        #result { 
+            margin-top: 20px; 
+            font-weight: bold; 
+        }
+        .hidden { 
+            display: none; 
+        }
+        /* Melhorias para mobile */
+        .btn {
+            padding: 12px 20px;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        .form-control, .form-select {
+            font-size: 16px;
+            height: 48px;
+        }
+        .form-label {
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+        .form-check-label {
+            font-size: 16px;
+            padding-left: 5px;
+        }
+        .form-check-input {
+            width: 20px;
+            height: 20px;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .nav-link {
+            font-size: 18px;
+            padding: 10px 15px;
+        }
+        .install-prompt {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-left: 4px solid #007bff;
+            display: none;
+        }
+        @media (max-width: 576px) {
+            body {
+                padding: 10px;
+            }
+            .form-section {
+                padding: 10px;
+            }
+            h1 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Calculadora de Preços para Marketplaces</h1>
+        
+        <div class="install-prompt" id="install-prompt">
+            <p><strong>Instale este app!</strong> Adicione esta calculadora à sua tela inicial para acesso rápido e uso offline.</p>
+            <button id="install-button" class="btn btn-primary">Instalar App</button>
+        </div>
+        
+        <ul class="nav nav-tabs mb-3">
+            <li class="nav-item">
+                <a class="nav-link active" href="/">Calculadora</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/monitor">Monitor de Preços</a>
+            </li>
+        </ul>
+
+        <div class="form-section">
+            <form id="price-calculator-form">
+                <div class="mb-3">
+                    <label for="cost_price" class="form-label">Custo do Produto (R$)</label>
+                    <input type="number" step="0.01" class="form-control" id="cost_price" name="cost_price" required>
+                </div>
+                <div class="mb-3">
+                    <label for="profit_margin" class="form-label">Margem de Lucro Desejada (%)</label>
+                    <input type="number" step="0.1" class="form-control" id="profit_margin" name="profit_margin" required>
+                </div>
+                <div class="mb-3">
+                    <label for="marketplace" class="form-label">Marketplace</label>
+                    <select class="form-select" id="marketplace" name="marketplace" required>
+                        <option value="" disabled selected>Selecione...</option>
+                        <option value="mercado_livre">Mercado Livre</option>
+                        <option value="amazon">Amazon Brasil</option>
+                        <option value="shopee">Shopee Brasil</option>
+                        <option value="magalu">Magazine Luiza</option>
+                        <option value="americanas">Lojas Americanas</option>
+                    </select>
+                </div>
+
+                <!-- Campos Condicionais para Categorias -->
+                <div id="category-options" class="mb-3 hidden">
+                    <label for="category_type" class="form-label">Categoria do Produto</label>
+                    <select class="form-select" id="category_type" name="category_type">
+                        <option value="geral" selected>Geral</option>
+                        <option value="eletronicos">Eletrônicos/Informática</option>
+                        <option value="moda">Moda/Acessórios</option>
+                        <option value="casa">Casa/Decoração</option>
+                        <option value="beleza">Beleza/Perfumaria</option>
+                        <option value="esporte">Esporte/Lazer</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="category_fee" class="form-label">Taxa da Categoria (%)</label>
+                    <input type="number" step="0.1" class="form-control" id="category_fee" name="category_fee" required>
+                    <small class="form-text text-muted">Consulte a taxa exata para a categoria do seu produto no marketplace.</small>
+                </div>
+
+                <!-- Campos Condicionais -->
+                <div id="ml-options" class="mb-3 hidden">
+                    <label for="ml_listing_type" class="form-label">Tipo de Anúncio (Mercado Livre)</label>
+                    <select class="form-select" id="ml_listing_type" name="ml_listing_type">
+                        <option value="classico" selected>Clássico</option>
+                        <option value="premium">Premium</option>
+                    </select>
+                </div>
+
+                <div id="shopee-options" class="mb-3 hidden">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="shopee_frete_gratis" name="shopee_frete_gratis">
+                        <label class="form-check-label" for="shopee_frete_gratis">
+                            Participa do Programa de Frete Grátis (Shopee)?
+                        </label>
+                    </div>
+                </div>
+                <!-- Fim Campos Condicionais -->
+
+                <button type="submit" class="btn btn-primary w-100">Calcular Preço</button>
+            </form>
+        </div>
+
+        <div id="result" class="alert" role="alert">
+            <!-- Resultado será exibido aqui -->
+        </div>
+        
+        <div class="mt-4">
+            <h5>Calculadora Offline</h5>
+            <p>Este aplicativo funciona mesmo sem internet. Instale-o para acesso rápido!</p>
+        </div>
+    </div>
+
+    <script>
+        // Registrar o Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('Service Worker registrado com sucesso:', registration);
+                    })
+                    .catch(error => {
+                        console.log('Falha ao registrar o Service Worker:', error);
+                    });
+            });
+        }
+        
+        // Lógica para exibir o prompt de instalação
+        let deferredPrompt;
+        const installPrompt = document.getElementById('install-prompt');
+        const installButton = document.getElementById('install-button');
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Previne o comportamento padrão
+            e.preventDefault();
+            // Armazena o evento para uso posterior
+            deferredPrompt = e;
+            // Exibe o prompt de instalação
+            installPrompt.style.display = 'block';
+        });
+        
+        installButton.addEventListener('click', (e) => {
+            // Esconde o prompt de instalação
+            installPrompt.style.display = 'none';
+            // Mostra o prompt de instalação do navegador
+            deferredPrompt.prompt();
+            // Espera o usuário responder ao prompt
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    console.log('Usuário aceitou a instalação do PWA');
+                } else {
+                    console.log('Usuário recusou a instalação do PWA');
+                }
+                deferredPrompt = null;
+            });
+        });
+        
+        // Verifica se o app já está instalado
+        window.addEventListener('appinstalled', (evt) => {
+            installPrompt.style.display = 'none';
+            console.log('App instalado com sucesso');
+        });
+
+        // Lógica da calculadora
+        const marketplaceSelect = document.getElementById("marketplace");
+        const mlOptions = document.getElementById("ml-options");
+        const shopeeOptions = document.getElementById("shopee-options");
+        const categoryOptions = document.getElementById("category-options");
+        const form = document.getElementById("price-calculator-form");
+        const resultDiv = document.getElementById("result");
+
+        marketplaceSelect.addEventListener("change", function() {
+            const selectedMarketplace = this.value;
+            mlOptions.classList.add("hidden");
+            shopeeOptions.classList.add("hidden");
+            categoryOptions.classList.add("hidden");
+
+            if (selectedMarketplace === "mercado_livre") {
+                mlOptions.classList.remove("hidden");
+            } else if (selectedMarketplace === "shopee") {
+                shopeeOptions.classList.remove("hidden");
+            } else if (selectedMarketplace === "magalu" || selectedMarketplace === "americanas") {
+                categoryOptions.classList.remove("hidden");
+            }
+        });
+
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
+            resultDiv.className = "alert"; // Limpa classes anteriores
+            resultDiv.textContent = "Calculando...";
+
+            const formData = new FormData(form);
+            const data = {
+                cost_price: formData.get("cost_price"),
+                profit_margin: formData.get("profit_margin"),
+                marketplace: formData.get("marketplace"),
+                category_fee: formData.get("category_fee"),
+                category_type: formData.get("category_type"),
+                ml_listing_type: formData.get("ml_listing_type"),
+                shopee_frete_gratis: formData.get("shopee_frete_gratis") === "on"
+            };
+
+            // Verificar se estamos offline
+            if (!navigator.onLine) {
+                // Modo offline - usar cálculo local simplificado
+                try {
+                    const costPrice = parseFloat(data.cost_price);
+                    const profitMargin = parseFloat(data.profit_margin);
+                    const categoryFee = parseFloat(data.category_fee) / 100;
+                    
+                    // Cálculo simplificado offline
+                    const profitFactor = profitMargin / 100;
+                    const priceWithProfit = costPrice * (1 + profitFactor);
+                    const finalPrice = priceWithProfit / (1 - categoryFee);
+                    
+                    resultDiv.className = "alert alert-warning";
+                    resultDiv.innerHTML = `<strong>Modo Offline:</strong> Preço de Venda Estimado: R$ ${finalPrice.toFixed(2)}<br>
+                                          <small>Nota: Este é um cálculo simplificado. Para resultados precisos, conecte-se à internet.</small>`;
+                } catch (error) {
+                    resultDiv.className = "alert alert-danger";
+                    resultDiv.textContent = `Erro no cálculo offline: ${error.message}`;
+                }
+                return;
+            }
+
+            // Modo online - usar API
+            fetch("/calculate", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    resultDiv.className = "alert alert-success";
+                    resultDiv.textContent = `Preço de Venda Sugerido: R$ ${result.price}`;
+                } else {
+                    resultDiv.className = "alert alert-danger";
+                    resultDiv.textContent = `Erro: ${result.error}`;
+                }
+            })
+            .catch(error => {
+                resultDiv.className = "alert alert-danger";
+                resultDiv.textContent = `Erro na comunicação: ${error}`;
+            });
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

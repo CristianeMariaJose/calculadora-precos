@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Preços para Marketplaces - Versão Comercial</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+        }
+        .hero {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            padding: 80px 0;
+            margin-bottom: 40px;
+        }
+        .feature-box {
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            transition: transform 0.3s;
+            height: 100%;
+        }
+        .feature-box:hover {
+            transform: translateY(-5px);
+        }
+        .pricing-box {
+            padding: 30px;
+            border-radius: 10px;
+            border: 1px solid #dee2e6;
+            margin-bottom: 30px;
+            transition: transform 0.3s;
+        }
+        .pricing-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .pricing-popular {
+            border: 2px solid #007bff;
+            position: relative;
+        }
+        .pricing-popular::before {
+            content: "MAIS POPULAR";
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #007bff;
+            color: white;
+            padding: 2px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .testimonial {
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+            margin-bottom: 20px;
+        }
+        .cta-section {
+            background-color: #f8f9fa;
+            padding: 80px 0;
+            margin: 60px 0;
+        }
+        .footer {
+            background-color: #343a40;
+            color: white;
+            padding: 40px 0;
+        }
+        .feature-icon {
+            font-size: 40px;
+            margin-bottom: 20px;
+            color: #007bff;
+        }
+        .btn-demo {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+        .btn-demo:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">PrecificaMKT</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Funcionalidades</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#pricing">Planos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#testimonials">Depoimentos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#faq">FAQ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-primary ms-2" href="#demo">Testar Grátis</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container text-center">
+            <h1 class="display-4 fw-bold mb-4">Maximize seus lucros em marketplaces</h1>
+            <p class="lead mb-5">Calcule preços ideais para Mercado Livre, Amazon, Shopee, Magalu e Americanas com nossa ferramenta especializada</p>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="#demo" class="btn btn-light btn-lg px-4">Testar Versão Demo</a>
+                <a href="#pricing" class="btn btn-outline-light btn-lg px-4">Ver Planos</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Por que escolher nossa calculadora?</h2>
+                <p class="lead text-muted">Ferramentas poderosas para otimizar sua operação em marketplaces</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="feature-box bg-light">
+                        <div class="feature-icon">💰</div>
+                        <h3>Cálculo Preciso de Taxas</h3>
+                        <p>Considere automaticamente todas as taxas específicas de cada marketplace, incluindo comissões, tarifas de anúncio e custos de frete.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-box bg-light">
+                        <div class="feature-icon">📊</div>
+                        <h3>Monitoramento de Preços</h3>
+                        <p>Acompanhe os preços dos seus produtos em todos os marketplaces em um único painel, facilitando ajustes estratégicos.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-box bg-light">
+                        <div class="feature-icon">📱</div>
+                        <h3>Acesso em Qualquer Dispositivo</h3>
+                        <p>Use em seu computador, tablet ou smartphone. Versão premium instalável para acesso offline e maior praticidade.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <div class="feature-box bg-light">
+                        <div class="feature-icon">🔄</div>
+                        <h3>Atualização Constante</h3>
+                        <p>Taxas e regras dos marketplaces sempre atualizadas, garantindo cálculos precisos mesmo com mudanças nas plataformas.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-box bg-light">
+                        <div class="feature-icon">📈</div>
+                        <h3>Otimização de Margem</h3>
+                        <p>Defina sua margem de lucro ideal e veja o preço recomendado para cada marketplace, maximizando seus ganhos.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-box bg-light">
+                        <div class="feature-icon">🔒</div>
+                        <h3>Dados Seguros</h3>
+                        <p>Suas informações de custo e margem ficam apenas no seu dispositivo, garantindo total privacidade para sua estratégia de preços.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section id="demo" class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Experimente Grátis</h2>
+                <p class="lead text-muted">Teste nossa calculadora com recursos limitados</p>
+            </div>
+            
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card shadow">
+                        <div class="card-body p-4">
+                            <h4 class="card-title mb-4">Calculadora Demo - Mercado Livre</h4>
+                            <form id="demo-calculator">
+                                <div class="mb-3">
+                                    <label for="cost_price" class="form-label">Custo do Produto (R$)</label>
+                                    <input type="number" step="0.01" class="form-control" id="cost_price" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="profit_margin" class="form-label">Margem de Lucro Desejada (%)</label>
+                                    <input type="number" step="0.1" class="form-control" id="profit_margin" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="category_fee" class="form-label">Taxa da Categoria (%)</label>
+                                    <select class="form-select" id="category_fee" required>
+                                        <option value="11">Eletrônicos (11%)</option>
+                                        <option value="16">Moda (16%)</option>
+                                        <option value="12" selected>Geral (12%)</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="listing_type" class="form-label">Tipo de Anúncio</label>
+                                    <select class="form-select" id="listing_type">
+                                        <option value="classico" selected>Clássico</option>
+                                        <option value="premium">Premium</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100">Calcular Preço</button>
+                            </form>
+                            
+                            <div id="demo-result" class="alert mt-4" style="display: none;"></div>
+                            
+                            <div class="mt-4 text-center">
+                                <p class="text-muted">Esta é uma versão limitada. Para acesso a todos os marketplaces e funcionalidades avançadas, adquira a versão completa.</p>
+                                <a href="#pricing" class="btn btn-success">Ver Planos Completos</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Planos e Preços</h2>
+                <p class="lead text-muted">Escolha o plano ideal para o seu negócio</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="pricing-box text-center">
+                        <h3>Básico</h3>
+                        <div class="display-6 fw-bold my-4">R$ 29,90<span class="fs-6 text-muted">/mês</span></div>
+                        <p class="text-muted mb-4">Ideal para vendedores iniciantes</p>
+                        <ul class="list-unstyled mb-4 text-start">
+                            <li class="mb-2">✅ Calculadora para 2 marketplaces</li>
+                            <li class="mb-2">✅ Atualizações de taxas</li>
+                            <li class="mb-2">✅ Acesso via navegador</li>
+                            <li class="mb-2">❌ Monitor de preços</li>
+                            <li class="mb-2">❌ Versão instalável (PWA)</li>
+                            <li class="mb-2">❌ Suporte prioritário</li>
+                        </ul>
+                        <a href="#contact" class="btn btn-outline-primary w-100">Contratar</a>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="pricing-box pricing-popular text-center">
+                        <h3>Profissional</h3>
+                        <div class="display-6 fw-bold my-4">R$ 49,90<span class="fs-6 text-muted">/mês</span></div>
+                        <p class="text-muted mb-4">Para vendedores em crescimento</p>
+                        <ul class="list-unstyled mb-4 text-start">
+                            <li class="mb-2">✅ Calculadora para 5 marketplaces</li>
+                            <li class="mb-2">✅ Atualizações de taxas</li>
+                            <li class="mb-2">✅ Acesso via navegador</li>
+                            <li class="mb-2">✅ Monitor de preços</li>
+                            <li class="mb-2">✅ Versão instalável (PWA)</li>
+                            <li class="mb-2">❌ Suporte prioritário</li>
+                        </ul>
+                        <a href="#contact" class="btn btn-primary w-100">Contratar</a>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="pricing-box text-center">
+                        <h3>Empresarial</h3>
+                        <div class="display-6 fw-bold my-4">R$ 99,90<span class="fs-6 text-muted">/mês</span></div>
+                        <p class="text-muted mb-4">Para operações profissionais</p>
+                        <ul class="list-unstyled mb-4 text-start">
+                            <li class="mb-2">✅ Calculadora para 5 marketplaces</li>
+                            <li class="mb-2">✅ Atualizações de taxas</li>
+                            <li class="mb-2">✅ Acesso via navegador</li>
+                            <li class="mb-2">✅ Monitor de preços</li>
+                            <li class="mb-2">✅ Versão instalável (PWA)</li>
+                            <li class="mb-2">✅ Suporte prioritário</li>
+                            <li class="mb-2">✅ Múltiplos usuários (até 5)</li>
+                            <li class="mb-2">✅ Relatórios avançados</li>
+                        </ul>
+                        <a href="#contact" class="btn btn-outline-primary w-100">Contratar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">O que nossos clientes dizem</h2>
+                <p class="lead text-muted">Vendedores que transformaram seus negócios com nossa calculadora</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="testimonial">
+                        <p class="mb-3">"Desde que comecei a usar a calculadora, minha margem de lucro aumentou em 23%. Consigo precificar corretamente em cada marketplace sem perder competitividade."</p>
+                        <div class="d-flex align-items-center">
+                            <div class="ms-3">
+                                <h5 class="mb-0">Carlos Silva</h5>
+                                <small class="text-muted">Vendedor no Mercado Livre</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="testimonial">
+                        <p class="mb-3">"A ferramenta me economiza horas de trabalho toda semana. Antes eu calculava manualmente e sempre tinha erros nas taxas. Agora é tudo automático e preciso."</p>
+                        <div class="d-flex align-items-center">
+                            <div class="ms-3">
+                                <h5 class="mb-0">Ana Oliveira</h5>
+                                <small class="text-muted">Loja de Eletrônicos</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="testimonial">
+                        <p class="mb-3">"O monitor de preços é fantástico! Consigo acompanhar meus produtos em todos os marketplaces e ajustar rapidamente quando necessário. Indispensável!"</p>
+                        <div class="d-flex align-items-center">
+                            <div class="ms-3">
+                                <h5 class="mb-0">Marcos Pereira</h5>
+                                <small class="text-muted">Vendedor Multicanal</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Perguntas Frequentes</h2>
+                <p class="lead text-muted">Tire suas dúvidas sobre nossa calculadora</p>
+            </div>
+            
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="accordion" id="faqAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                    Como a calculadora considera as diferentes taxas de cada marketplace?
+                                </button>
+                            </h2>
+                            <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Nossa calculadora possui um banco de dados atualizado com todas as taxas e regras específicas de cada marketplace (Mercado Livre, Amazon, Shopee, Magazine Luiza e Americanas). Consideramos comissões por categoria, taxas de anúncio, custos de frete e outras variáveis específicas de cada plataforma para garantir um cálculo preciso.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                    Preciso instalar algum programa no meu computador?
+                                </button>
+                            </h2>
+                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Não é necessário instalar nada. A calculadora funciona diretamente no navegador. Nos planos Profissional e Empresarial, oferecemos a opção de instalar como PWA (Progressive Web App), o que permite usar offline e ter um ícone na tela inicial, mas isso é opcional e não requer instalação tradicional.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                    Como funciona o monitor de preços?
+                                </button>
+                            </h2>
+                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    O monitor de preços permite que você cadastre seus produtos com os respectivos IDs em cada marketplace. A ferramenta então busca e exibe os preços atuais em um painel centralizado, facilitando a comparação e ajustes estratégicos. Você pode configurar alertas para ser notificado quando houver variações significativas.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                    As taxas são atualizadas automaticamente?
+                                </button>
+                            </h2>
+                            <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Sim! Nossa equipe monitora constantemente as mudanças nas políticas de taxas dos marketplaces e atualiza o sistema automaticamente. Você sempre terá os cálculos baseados nas taxas mais recentes, sem precisar se preocupar com atualizações manuais.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                                    Posso cancelar minha assinatura a qualquer momento?
+                                </button>
+                            </h2>
+                            <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Sim, não há fidelidade. Você pode cancelar sua assinatura a qualquer momento e terá acesso até o final do período já pago. Não fazemos reembolsos proporcionais de períodos parciais, mas você pode usar o serviço normalmente até o fim do ciclo atual.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container text-center">
+            <h2 class="fw-bold mb-4">Pronto para otimizar seus preços?</h2>
+            <p class="lead mb-5">Comece agora mesmo com nossa versão demo gratuita ou escolha o plano ideal para o seu negócio</p>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="#demo" class="btn btn-success btn-lg px-4">Testar Grátis</a>
+                <a href="#pricing" class="btn btn-primary btn-lg px-4">Ver Planos</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <h2 class="fw-bold mb-4">Entre em Contato</h2>
+                    <p class="lead mb-5">Tem dúvidas ou precisa de ajuda? Fale conosco!</p>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">Suporte</h5>
+                                    <p class="card-text">Precisa de ajuda com a calculadora?</p>
+                                    <a href="mailto:suporte@precificamkt.com.br" class="btn btn-outline-primary">suporte@precificamkt.com.br</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">Vendas</h5>
+                                    <p class="card-text">Interessado em planos empresariais?</p>
+                                    <a href="mailto:vendas@precificamkt.com.br" class="btn btn-outline-primary">vendas@precificamkt.com.br</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5>PrecificaMKT</h5>
+                    <p class="text-muted">A solução completa para precificação em marketplaces.</p>
+                </div>
+                
+                <div class="col-md-2 mb-4 mb-md-0">
+                    <h5>Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#features" class="text-white">Funcionalidades</a></li>
+                        <li><a href="#pricing" class="text-white">Planos</a></li>
+                        <li><a href="#testimonials" class="text-white">Depoimentos</a></li>
+                        <li><a href="#faq" class="text-white">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-md-3 mb-4 mb-md-0">
+                    <h5>Contato</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="mailto:contato@precificamkt.com.br" class="text-white">contato@precificamkt.com.br</a></li>
+                        <li><a href="tel:+551199999999" class="text-white">(11) 9999-9999</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-md-3">
+                    <h5>Formas de Pagamento</h5>
+                    <p class="text-muted">Aceitamos PIX, cartão de crédito e boleto bancário.</p>
+                </div>
+            </div>
+            
+            <hr class="my-4 bg-light">
+            
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-0">© 2025 PrecificaMKT. Todos os direitos reservados.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <a href="#" class="text-white me-3">Termos de Uso</a>
+                    <a href="#" class="text-white">Política de Privacidade</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Demo Calculator Logic
+        document.getElementById('demo-calculator').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const costPrice = parseFloat(document.getElementById('cost_price').value);
+            const profitMargin = parseFloat(document.getElementById('profit_margin').value);
+            const categoryFee = parseFloat(document.getElementById('category_fee').value) / 100;
+            const listingType = document.getElementById('listing_type').value;
+            
+            // Validação
+            if (costPrice <= 0 || profitMargin < 0) {
+                showResult('Por favor, insira valores válidos para custo e margem de lucro.', 'danger');
+                return;
+            }
+            
+            // Cálculo simplificado para a demo
+            const profitFactor = profitMargin / 100;
+            const priceWithProfit = costPrice * (1 + profitFactor);
+            
+            // Ajuste para tipo de anúncio
+            let finalCommission = categoryFee;
+            if (listingType === 'premium') {
+                finalCommission += 0.05; // 5% adicional para anúncios premium
+            }
+            
+            const finalPrice = priceWithProfit / (1 - finalCommission);
+            
+            // Adiciona taxa fixa para produtos abaixo de R$ 79
+            let adjustedPrice = finalPrice;
+            if (finalPrice < 29) {
+                adjustedPrice += 6.25;
+            } else if (finalPrice < 50) {
+                adjustedPrice += 6.50;
+            } else if (finalPrice < 79) {
+                adjustedPrice += 6.75;
+            }
+            
+            // Arredonda para duas casas decimais
+            const roundedPrice = Math.ceil(adjustedPrice * 100) / 100;
+            
+            showResult(`Preço de Venda Sugerido: R$ ${roundedPrice.toFixed(2)}`, 'success');
+        });
+        
+        function showResult(message, type) {
+            const resultDiv = document.getElementById('demo-result');
+            resultDiv.className = `alert alert-${type}`;
+            resultDiv.textContent = message;
+            resultDiv.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
