@@ -14,7 +14,7 @@ logging.basicConfig(level=logging.DEBUG,
 logger = logging.getLogger(__name__)
 
 # Importar módulo de banco de dados MongoDB
-from src.modules.database_mongo import load_cadastros, add_cadastro, update_cadastro, get_cadastro_by_email
+from modules.database_mongo import load_cadastros, add_cadastro, update_cadastro, get_cadastro_by_email
 logger.info("Usando MongoDB Atlas para persistência de dados")
 
 app = Flask(__name__, template_folder=".", static_folder="static")
