@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Completa - PrecificaMKT</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .success-icon {
+            font-size: 80px;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+        
+        .install-steps {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: left;
+        }
+        
+        .step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .step-number {
+            background: #667eea;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .step-text {
+            flex: 1;
+        }
+        
+        .install-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 20px 10px;
+            transition: transform 0.3s ease;
+        }
+        
+        .install-button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .features {
+            margin-top: 30px;
+            text-align: left;
+        }
+        
+        .feature {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .feature-icon {
+            color: #4CAF50;
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .step {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .step-number {
+                margin-bottom: 10px;
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="success-icon">🎉</div>
+        <h1>Parabéns!</h1>
+        <p class="subtitle">Seu pagamento foi confirmado! Agora você tem acesso à versão completa da calculadora.</p>
+        
+        <div class="install-steps">
+            <h3 style="margin-bottom: 20px; color: #333;">📱 Como instalar no seu dispositivo:</h3>
+            
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-text">
+                    <strong>No celular:</strong> Toque no menu do navegador (⋮) e selecione "Adicionar à tela inicial" ou "Instalar app"
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-text">
+                    <strong>No computador:</strong> Clique no ícone de instalação (⬇️) na barra de endereços ou use o menu do navegador
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-text">
+                    <strong>Pronto!</strong> A calculadora será instalada como um aplicativo no seu dispositivo
+                </div>
+            </div>
+        </div>
+        
+        <button class="install-button" onclick="installPWA()">📱 Instalar Agora</button>
+        <button class="install-button" onclick="window.location.href='/'">🧮 Usar no Navegador</button>
+        
+        <div class="features">
+            <h3 style="margin-bottom: 15px; color: #333;">✨ Recursos da versão completa:</h3>
+            
+            <div class="feature">
+                <span class="feature-icon">✅</span>
+                <span>Cálculo de preços para todos os marketplaces</span>
+            </div>
+            
+            <div class="feature">
+                <span class="feature-icon">✅</span>
+                <span>Margem de lucro personalizada</span>
+            </div>
+            
+            <div class="feature">
+                <span class="feature-icon">✅</span>
+                <span>Histórico de cálculos</span>
+            </div>
+            
+            <div class="feature">
+                <span class="feature-icon">✅</span>
+                <span>Funciona offline após instalação</span>
+            </div>
+            
+            <div class="feature">
+                <span class="feature-icon">✅</span>
+                <span>Atualizações automáticas</span>
+            </div>
+        </div>
+        
+        <p style="margin-top: 30px; color: #666; font-size: 0.9em;">
+            💬 Dúvidas? Entre em contato conosco pelo WhatsApp!
+        </p>
+    </div>
+    
+    <script>
+        let deferredPrompt;
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+        });
+        
+        function installPWA() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('PWA instalado');
+                    }
+                    deferredPrompt = null;
+                });
+            } else {
+                // Fallback para dispositivos que não suportam installPrompt
+                alert('Para instalar:\\n\\n📱 Mobile: Menu (⋮) → "Adicionar à tela inicial"\\n💻 Desktop: Ícone de instalação na barra de endereços');
+            }
+        }
+        
+        // Detectar se já está instalado
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+            document.querySelector('.install-button').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
