@@ -24,8 +24,7 @@ try:
     client = pymongo.MongoClient(MONGO_URI, serverSelectionTimeoutMS=5000, tlsCAFile=certifi.where())
     # Testar a conexão
     client.admin.command('ping')
-    db = client[DB_NAME]
-    collection = db[COLLECTION_NAME]
+    
     logger.info("Conexão com MongoDB Atlas estabelecida com sucesso!")
 except Exception as e:
     logger.error(f"Erro ao conectar ao MongoDB Atlas: {str(e)}")
