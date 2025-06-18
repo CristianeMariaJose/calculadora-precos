@@ -80,7 +80,7 @@ def ativar():
 @app.route("/calculadora")
 def calculadora():
     """Página da calculadora de preços para marketplaces."""
-    logger.debug("Acessando calculadora de preços")
+   logger.debug("Acessando calculadora de preços - v2")
     return render_template("calculadora.html")
 
 @app.route("/monitor")
