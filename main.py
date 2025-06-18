@@ -81,7 +81,7 @@ def ativar():
 def calculadora():
     """Página da calculadora de preços para marketplaces."""
     logger.debug("Acessando calculadora de preços")
-    return render_template("modelos/calculadora.html")
+    return render_template("templates/calculadora.html")
 
 @app.route("/monitor")
 def monitor():
