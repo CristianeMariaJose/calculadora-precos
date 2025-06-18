@@ -77,6 +77,12 @@ def ativar():
     """Página de ativação da licença."""
     return render_template("static/ativar.html")
 
+@app.route("/calculadora")
+def calculadora():
+    """Página da calculadora de preços para marketplaces."""
+    logger.debug("Acessando calculadora de preços")
+    return render_template("modelos/calculadora.html")
+
 @app.route("/monitor")
 def monitor():
     """Página do monitor de preços."""
