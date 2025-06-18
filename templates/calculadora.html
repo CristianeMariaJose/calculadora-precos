@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Preços - PrecificaMKT</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .calculator-section {
+            padding: 40px;
+        }
+
+        .input-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+            font-size: 1.1rem;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .calculate-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .results-section {
+            display: none;
+            margin-top: 30px;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .marketplace-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .marketplace-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .marketplace-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .marketplace-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .price-info {
+            margin-bottom: 10px;
+        }
+
+        .price-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .price-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #28a745;
+        }
+
+        .tax-info {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .profit-margin {
+            background: #e8f5e8;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .profit-margin .label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .profit-margin .value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #28a745;
+        }
+
+        @media (max-width: 768px) {
+            .input-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .calculator-section {
+                padding: 20px;
+            }
+            
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .summary-card {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .summary-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .summary-card .best-price {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .summary-card .best-marketplace {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Calculadora de Preços</h1>
+            <p>Calcule o preço ideal para cada marketplace com precisão</p>
+        </div>
+
+        <div class="calculator-section">
+            <div class="input-section">
+                <h2 style="margin-bottom: 25px; color: #333;">📊 Dados do Produto</h2>
+                
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="custo">💰 Custo do Produto (R$)</label>
+                        <input type="number" id="custo" placeholder="Ex: 50.00" step="0.01" min="0">
+                    </div>
+                    <div class="input-group">
+                        <label for="margem">📈 Margem de Lucro Desejada (%)</label>
+                        <input type="number" id="margem" placeholder="Ex: 30" step="0.1" min="0" max="100">
+                    </div>
+                </div>
+
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="categoria">🏷️ Categoria do Produto</label>
+                        <select id="categoria">
+                            <option value="eletronicos">Eletrônicos</option>
+                            <option value="casa">Casa e Jardim</option>
+                            <option value="moda">Moda e Beleza</option>
+                            <option value="esportes">Esportes e Lazer</option>
+                            <option value="livros">Livros</option>
+                            <option value="brinquedos">Brinquedos</option>
+                            <option value="automotivo">Automotivo</option>
+                            <option value="outros">Outros</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="peso">⚖️ Peso do Produto (kg)</label>
+                        <input type="number" id="peso" placeholder="Ex: 0.5" step="0.1" min="0">
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calcularPrecos()">
+                    🧮 Calcular Preços para Todos os Marketplaces
+                </button>
+            </div>
+
+            <div class="results-section" id="results">
+                <div class="summary-card" id="summary">
+                    <h3>🏆 Melhor Opção</h3>
+                    <div class="best-price" id="bestPrice">R$ 0,00</div>
+                    <div class="best-marketplace" id="bestMarketplace">Selecione os dados acima</div>
+                </div>
+
+                <h2 style="margin-bottom: 20px; color: #333;">💼 Preços por Marketplace</h2>
+                <div class="results-grid" id="resultsGrid">
+                    <!-- Resultados serão inseridos aqui -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Taxas dos marketplaces por categoria
+        const taxasMarketplaces = {
+            mercadolivre: {
+                nome: "Mercado Livre",
+                taxas: {
+                    eletronicos: 0.16,
+                    casa: 0.15,
+                    moda: 0.17,
+                    esportes: 0.15,
+                    livros: 0.13,
+                    brinquedos: 0.16,
+                    automotivo: 0.14,
+                    outros: 0.15
+                },
+                taxaFrete: 0.12
+            },
+            amazon: {
+                nome: "Amazon",
+                taxas: {
+                    eletronicos: 0.15,
+                    casa: 0.15,
+                    moda: 0.17,
+                    esportes: 0.15,
+                    livros: 0.15,
+                    brinquedos: 0.15,
+                    automotivo: 0.12,
+                    outros: 0.15
+                },
+                taxaFrete: 0.10
+            },
+            shopee: {
+                nome: "Shopee",
+                taxas: {
+                    eletronicos: 0.12,
+                    casa: 0.12,
+                    moda: 0.12,
+                    esportes: 0.12,
+                    livros: 0.12,
+                    brinquedos: 0.12,
+                    automotivo: 0.12,
+                    outros: 0.12
+                },
+                taxaFrete: 0.08
+            },
+            magalu: {
+                nome: "Magazine Luiza",
+                taxas: {
+                    eletronicos: 0.18,
+                    casa: 0.16,
+                    moda: 0.18,
+                    esportes: 0.16,
+                    livros: 0.14,
+                    brinquedos: 0.17,
+                    automotivo: 0.15,
+                    outros: 0.16
+                },
+                taxaFrete: 0.14
+            },
+            americanas: {
+                nome: "Americanas",
+                taxas: {
+                    eletronicos: 0.17,
+                    casa: 0.15,
+                    moda: 0.17,
+                    esportes: 0.15,
+                    livros: 0.13,
+                    brinquedos: 0.16,
+                    automotivo: 0.14,
+                    outros: 0.15
+                },
+                taxaFrete: 0.13
+            }
+        };
+
+        function calcularPrecos() {
+            const custo = parseFloat(document.getElementById('custo').value);
+            const margem = parseFloat(document.getElementById('margem').value);
+            const categoria = document.getElementById('categoria').value;
+            const peso = parseFloat(document.getElementById('peso').value);
+
+            if (!custo || !margem || !peso) {
+                alert('Por favor, preencha todos os campos!');
+                return;
+            }
+
+            const resultsSection = document.getElementById('results');
+            const resultsGrid = document.getElementById('resultsGrid');
+            
+            resultsGrid.innerHTML = '';
+            
+            let melhorPreco = 0;
+            let melhorMarketplace = '';
+            
+            Object.keys(taxasMarketplaces).forEach(marketplace => {
+                const dados = taxasMarketplaces[marketplace];
+                const taxaComissao = dados.taxas[categoria];
+                const taxaFrete = dados.taxaFrete;
+                
+                // Cálculo do preço
+                const custoTotal = custo + (peso * 5); // Estimativa de frete
+                const precoComMargem = custoTotal * (1 + margem/100);
+                const precoFinal = precoComMargem / (1 - taxaComissao - taxaFrete);
+                
+                const lucroLiquido = precoFinal - custoTotal - (precoFinal * taxaComissao) - (precoFinal * taxaFrete);
+                const margemReal = (lucroLiquido / custoTotal) * 100;
+                
+                if (precoFinal > melhorPreco) {
+                    melhorPreco = precoFinal;
+                    melhorMarketplace = dados.nome;
+                }
+                
+                const card = document.createElement('div');
+                card.className = 'marketplace-card';
+                card.innerHTML = `
+                    <div class="marketplace-name">${dados.nome}</div>
+                    <div class="price-info">
+                        <div class="price-label">Preço de Venda Sugerido</div>
+                        <div class="price-value">R$ ${precoFinal.toFixed(2)}</div>
+                    </div>
+                    <div class="profit-margin">
+                        <div class="label">Margem Real:</div>
+                        <div class="value">${margemReal.toFixed(1)}%</div>
+                    </div>
+                    <div class="tax-info">
+                        <strong>Taxas aplicadas:</strong><br>
+                        • Comissão: ${(taxaComissao * 100).toFixed(1)}%<br>
+                        • Frete: ${(taxaFrete * 100).toFixed(1)}%<br>
+                        • Lucro líquido: R$ ${lucroLiquido.toFixed(2)}
+                    </div>
+                `;
+                
+                resultsGrid.appendChild(card);
+            });
+            
+            // Atualizar resumo
+            document.getElementById('bestPrice').textContent = `R$ ${melhorPreco.toFixed(2)}`;
+            document.getElementById('bestMarketplace').textContent = `${melhorMarketplace} oferece o melhor retorno`;
+            
+            resultsSection.style.display = 'block';
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Adicionar eventos de Enter nos inputs
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        calcularPrecos();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
