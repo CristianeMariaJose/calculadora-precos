@@ -9,13 +9,22 @@ import logging
 
 # Configurar logging
 logging.basicConfig(level=logging.DEBUG, 
-                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                    handlers=[logging.StreamHandler()])
+                   format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                   handlers=[logging.StreamHandler()])
 logger = logging.getLogger(__name__)
 
 # Importar módulo de banco de dados MongoDB
 from database_mongo import load_cadastros, add_cadastro, update_cadastro, get_cadastro_by_email
 logger.info("Usando MongoDB Atlas para persistência de dados")
+
+# Importar módulo WhatsApp (se existir)
+try:
+    from whatsapp_sender import enviar_whatsapp_automatico
+    WHATSAPP_DISPONIVEL = True
+    logger.info("Módulo WhatsApp carregado com sucesso")
+except ImportError:
+    WHATSAPP_DISPONIVEL = False
+    logger.warning("Módulo WhatsApp não encontrado - funcionalidade desabilitada")
 
 app = Flask(__name__, template_folder=".", static_folder="static")
 app.secret_key = "calculadora_marketplaces_secret_key"
@@ -53,6 +62,28 @@ def admin_dashboard():
     logger.debug(f"Acessando dashboard admin, {len(cadastros)} cadastros carregados")
     return render_template("static/admin_dashboard.html", cadastros=cadastros)
 
+@app.route("/upgrade")
+def upgrade():
+    """Página de upgrade para versão completa."""
+    logger.debug("Acessando página de upgrade")
+    try:
+        return render_template("templates/upgrade.html")
+    except:
+        # Fallback se o template não existir
+        return render_template("static/upgrade.html")
+
+@app.route("/ativar")
+def ativar():
+    """Página de ativação da licença."""
+    return render_template("static/ativar.html")
+
+@app.route("/monitor")
+def monitor():
+    """Página do monitor de preços."""
+    return render_template("static/monitor.html")
+
+# ===== APIs =====
+
 @app.route("/api/cadastros", methods=["GET"])
 def api_get_cadastros():
     """API para obter todos os cadastros."""
@@ -89,7 +120,7 @@ def api_cadastro():
         else:
             logger.error("API: Erro ao salvar cadastro")
             return jsonify({"success": False, "error": "Erro ao salvar cadastro"})
-    
+            
     except Exception as e:
         logger.error(f"API: Erro no servidor: {e}")
         return jsonify({"success": False, "error": f"Erro no servidor: {str(e)}"})
@@ -114,7 +145,7 @@ def api_confirmar_pagamento():
         else:
             logger.error(f"API: Erro ao atualizar cadastro para {email}")
             return jsonify({"success": False, "error": "Erro ao atualizar cadastro"})
-    
+            
     except Exception as e:
         logger.error(f"API: Erro ao confirmar pagamento: {e}")
         return jsonify({"success": False, "error": f"Erro no servidor: {str(e)}"})
@@ -139,25 +170,83 @@ def api_enviar_licenca():
         else:
             logger.error(f"API: Erro ao atualizar cadastro para {email}")
             return jsonify({"success": False, "error": "Erro ao atualizar cadastro"})
-    
+            
     except Exception as e:
         logger.error(f"API: Erro ao marcar licença como enviada: {e}")
         return jsonify({"success": False, "error": f"Erro no servidor: {str(e)}"})
 
-@app.route("/monitor")
-def monitor():
-    """Página do monitor de preços."""
-    return render_template("static/monitor.html")
+@app.route("/api/enviar_whatsapp", methods=["POST"])
+def api_enviar_whatsapp():
+    """API para enviar WhatsApp automático."""
+    try:
+        if not WHATSAPP_DISPONIVEL:
+            return jsonify({"success": False, "error": "Módulo WhatsApp não disponível"})
+        
+        data = request.json
+        email = data.get('email')
+        logger.debug(f"API: Enviando WhatsApp para {email}")
+        
+        # Buscar dados do cadastro
+        cadastro = get_cadastro_by_email(email)
+        if not cadastro:
+            return jsonify({"success": False, "error": "Cadastro não encontrado"})
+        
+        # Enviar WhatsApp
+        resultado = enviar_whatsapp_automatico(
+            nome=cadastro.get('nome', ''),
+            whatsapp=cadastro.get('whatsapp', ''),
+            email=email
+        )
+        
+        if resultado['success']:
+            # Atualizar cadastro marcando WhatsApp como enviado
+            dados_atualizados = {
+                "whatsapp_enviado": True,
+                "data_whatsapp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            }
+            update_cadastro(email, dados_atualizados)
+            
+            logger.debug(f"API: WhatsApp enviado com sucesso para {email}")
+            return jsonify({"success": True, "message": "WhatsApp enviado com sucesso!"})
+        else:
+            logger.error(f"API: Erro ao enviar WhatsApp para {email}: {resultado['error']}")
+            return jsonify({"success": False, "error": resultado['error']})
+            
+    except Exception as e:
+        logger.error(f"API: Erro ao enviar WhatsApp: {e}")
+        return jsonify({"success": False, "error": f"Erro no servidor: {str(e)}"})
 
-@app.route("/upgrade")
-def upgrade():
-    """Página de upgrade para versão completa."""
-    return render_template("static/upgrade.html")
+# ===== ROTAS DE AUTENTICAÇÃO ADMIN =====
 
-@app.route("/ativar")
-def ativar():
-    """Página de ativação da licença."""
-    return render_template("static/ativar.html")
+@app.route("/api/admin/login", methods=["POST"])
+def api_admin_login():
+    """API para login do administrador."""
+    try:
+        data = request.form
+        username = data.get('username')
+        password = data.get('password')
+        
+        # Verificação simples (em produção, usar hash e banco de dados)
+        if username == 'admin' and password == 'admin123':
+            session['admin_logged'] = True
+            logger.debug("Admin logado com sucesso")
+            return redirect(url_for('admin_dashboard'))
+        else:
+            logger.warning(f"Tentativa de login inválida: {username}")
+            return redirect(url_for('admin_login'))
+            
+    except Exception as e:
+        logger.error(f"Erro no login admin: {e}")
+        return redirect(url_for('admin_login'))
+
+@app.route("/api/admin/logout")
+def api_admin_logout():
+    """API para logout do administrador."""
+    session.pop('admin_logged', None)
+    logger.debug("Admin deslogado")
+    return redirect(url_for('admin_login'))
+
+# ===== CONFIGURAÇÃO DO SERVIDOR =====
 
 if __name__ == "__main__":
     # Usar a porta definida pelo ambiente (Render) ou 5000 como padrão
