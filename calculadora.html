@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Preços para Marketplaces</title>
+    <title>Calculadora de Preços - Marketplaces</title>
     <style>
         * {
             margin: 0;
@@ -12,18 +12,18 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Arial', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 800px;
             margin: 0 auto;
             background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             overflow: hidden;
         }
 
@@ -35,464 +35,300 @@
         }
 
         .header h1 {
-            font-size: 2.5rem;
+            font-size: 2.2em;
             margin-bottom: 10px;
-            font-weight: 700;
         }
 
         .header p {
-            font-size: 1.2rem;
+            font-size: 1.1em;
             opacity: 0.9;
         }
 
         .content {
-            padding: 40px;
-        }
-
-        .form-section {
-            background: #f8f9fa;
             padding: 30px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 20px;
         }
 
         .form-group {
-            display: flex;
-            flex-direction: column;
+            margin-bottom: 20px;
         }
 
-        .form-group label {
-            font-weight: 600;
+        label {
+            display: block;
             margin-bottom: 8px;
+            font-weight: bold;
             color: #333;
-            display: flex;
-            align-items: center;
-            gap: 8px;
         }
 
-        .form-group input,
-        .form-group select {
-            padding: 12px 15px;
-            border: 2px solid #e1e5e9;
-            border-radius: 10px;
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
             font-size: 16px;
-            transition: all 0.3s ease;
+            transition: border-color 0.3s;
         }
 
-        .form-group input:focus,
-        .form-group select:focus {
+        input:focus, select:focus {
             outline: none;
             border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
-        .calculate-btn {
+        .btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
+            padding: 15px 30px;
             border: none;
-            padding: 15px 40px;
+            border-radius: 8px;
             font-size: 18px;
-            font-weight: 600;
-            border-radius: 10px;
             cursor: pointer;
-            transition: all 0.3s ease;
             width: 100%;
-            margin-top: 20px;
+            margin: 20px 0;
+            transition: transform 0.2s;
         }
 
-        .calculate-btn:hover {
+        .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
         }
 
         .results {
-            display: none;
             margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            display: none;
         }
 
-        .results.show {
-            display: block;
-            animation: fadeIn 0.5s ease;
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            margin: 10px 0;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .marketplace {
+            font-weight: bold;
+            color: #333;
         }
 
-        .results-grid {
+        .price {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        .best {
+            border-left-color: #28a745;
+            background: #f8fff9;
+        }
+
+        .best .marketplace::after {
+            content: " 🏆";
+        }
+
+        .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: 1fr 1fr;
             gap: 20px;
         }
 
-        .marketplace-card {
-            background: white;
-            border: 2px solid #e1e5e9;
-            border-radius: 15px;
-            padding: 25px;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .marketplace-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-        }
-
-        .marketplace-card.best {
-            border-color: #28a745;
-            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-            color: white;
-        }
-
-        .marketplace-card.best::before {
-            content: "🏆 MELHOR OPÇÃO";
-            position: absolute;
-            top: -10px;
-            left: 20px;
-            background: #ffc107;
-            color: #333;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
-        }
-
-        .marketplace-name {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .price-display {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 15px;
-        }
-
-        .details {
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
-
-        .details div {
-            margin-bottom: 5px;
-        }
-
-        .icon {
-            width: 20px;
-            height: 20px;
-        }
-
         @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2rem;
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                margin: 10px;
+            }
+            
+            .header {
+                padding: 20px;
             }
             
             .content {
                 padding: 20px;
             }
-            
-            .form-section {
-                padding: 20px;
-            }
-            
-            .form-row {
-                grid-template-columns: 1fr;
-            }
         }
 
-        .summary {
-            background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
-            color: white;
-            padding: 25px;
-            border-radius: 15px;
+        .info {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
             margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .summary h3 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-        }
-
-        .summary p {
-            font-size: 1.1rem;
-            opacity: 0.9;
+            border-left: 4px solid #2196f3;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🧮 Calculadora de Preços</h1>
-            <p>Calcule preços ideais para todos os marketplaces</p>
+            <h1>Calculadora de Preços</h1>
+            <p>Calcule o preço ideal para vender em cada marketplace</p>
         </div>
-
+        
         <div class="content">
-            <div class="form-section">
-                <form id="calculatorForm">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="custo">
-                                💰 Custo do Produto (R$)
-                            </label>
-                            <input type="number" id="custo" step="0.01" placeholder="Ex: 50.00" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="margem">
-                                📈 Margem de Lucro (%)
-                            </label>
-                            <input type="number" id="margem" step="0.1" placeholder="Ex: 30" required>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="categoria">
-                                🏷️ Categoria do Produto
-                            </label>
-                            <select id="categoria" required>
-                                <option value="">Selecione a categoria</option>
-                                <option value="eletronicos">Eletrônicos</option>
-                                <option value="casa">Casa e Jardim</option>
-                                <option value="moda">Moda e Beleza</option>
-                                <option value="esportes">Esportes e Lazer</option>
-                                <option value="livros">Livros e Mídia</option>
-                                <option value="brinquedos">Brinquedos</option>
-                                <option value="automotivo">Automotivo</option>
-                                <option value="outros">Outros</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="peso">
-                                ⚖️ Peso do Produto (kg)
-                            </label>
-                            <input type="number" id="peso" step="0.1" placeholder="Ex: 0.5" required>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="calculate-btn">
-                        🚀 Calcular Preços para Todos os Marketplaces
-                    </button>
-                </form>
+            <div class="info">
+                <strong>💡 Como usar:</strong> Digite o custo do produto, escolha a categoria e defina sua margem de lucro. A calculadora mostrará o preço final para cada marketplace.
             </div>
 
+            <form id="calculatorForm">
+                <div class="grid">
+                    <div class="form-group">
+                        <label for="custo">Custo do Produto (R$)</label>
+                        <input type="number" id="custo" step="0.01" placeholder="Ex: 50.00" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="categoria">Categoria do Produto</label>
+                        <select id="categoria" required>
+                            <option value="">Selecione a categoria</option>
+                            <option value="eletronicos">Eletrônicos</option>
+                            <option value="casa">Casa e Jardim</option>
+                            <option value="moda">Moda e Beleza</option>
+                            <option value="esportes">Esportes e Lazer</option>
+                            <option value="livros">Livros e Mídia</option>
+                            <option value="outros">Outros</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="margem">Margem de Lucro (%)</label>
+                        <input type="number" id="margem" step="1" placeholder="Ex: 30" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="frete">Custo do Frete (R$)</label>
+                        <input type="number" id="frete" step="0.01" placeholder="Ex: 15.00" value="0">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn">Calcular Preços</button>
+            </form>
+
             <div id="results" class="results">
-                <div class="summary">
-                    <h3>📊 Resumo dos Cálculos</h3>
-                    <p id="summaryText"></p>
-                </div>
-                
-                <div class="results-grid" id="resultsGrid">
-                    <!-- Resultados serão inseridos aqui -->
-                </div>
+                <h3>Resultados por Marketplace:</h3>
+                <div id="resultsList"></div>
             </div>
         </div>
     </div>
 
     <script>
-        // Configurações de taxas por marketplace e categoria
-        const marketplaces = {
-            mercadolivre: {
-                name: "Mercado Livre",
-                icon: "🛒",
-                taxas: {
-                    eletronicos: 0.16,
-                    casa: 0.13,
-                    moda: 0.13,
-                    esportes: 0.13,
-                    livros: 0.11,
-                    brinquedos: 0.13,
-                    automotivo: 0.13,
-                    outros: 0.13
-                },
-                frete: 0.08
+        // Taxas por marketplace e categoria
+        const taxas = {
+            'mercadolivre': {
+                'eletronicos': 0.16,
+                'casa': 0.14,
+                'moda': 0.15,
+                'esportes': 0.14,
+                'livros': 0.12,
+                'outros': 0.15
             },
-            amazon: {
-                name: "Amazon",
-                icon: "📦",
-                taxas: {
-                    eletronicos: 0.15,
-                    casa: 0.15,
-                    moda: 0.17,
-                    esportes: 0.15,
-                    livros: 0.15,
-                    brinquedos: 0.15,
-                    automotivo: 0.12,
-                    outros: 0.15
-                },
-                frete: 0.10
+            'amazon': {
+                'eletronicos': 0.15,
+                'casa': 0.13,
+                'moda': 0.14,
+                'esportes': 0.13,
+                'livros': 0.11,
+                'outros': 0.14
             },
-            shopee: {
-                name: "Shopee",
-                icon: "🛍️",
-                taxas: {
-                    eletronicos: 0.12,
-                    casa: 0.12,
-                    moda: 0.12,
-                    esportes: 0.12,
-                    livros: 0.12,
-                    brinquedos: 0.12,
-                    automotivo: 0.12,
-                    outros: 0.12
-                },
-                frete: 0.06
+            'shopee': {
+                'eletronicos': 0.12,
+                'casa': 0.10,
+                'moda': 0.11,
+                'esportes': 0.10,
+                'livros': 0.09,
+                'outros': 0.11
             },
-            magalu: {
-                name: "Magazine Luiza",
-                icon: "🏪",
-                taxas: {
-                    eletronicos: 0.18,
-                    casa: 0.15,
-                    moda: 0.15,
-                    esportes: 0.15,
-                    livros: 0.12,
-                    brinquedos: 0.15,
-                    automotivo: 0.15,
-                    outros: 0.15
-                },
-                frete: 0.05
+            'magalu': {
+                'eletronicos': 0.18,
+                'casa': 0.16,
+                'moda': 0.17,
+                'esportes': 0.16,
+                'livros': 0.14,
+                'outros': 0.17
             },
-            americanas: {
-                name: "Americanas",
-                icon: "🏬",
-                taxas: {
-                    eletronicos: 0.17,
-                    casa: 0.14,
-                    moda: 0.14,
-                    esportes: 0.14,
-                    livros: 0.12,
-                    brinquedos: 0.14,
-                    automotivo: 0.14,
-                    outros: 0.14
-                },
-                frete: 0.07
+            'americanas': {
+                'eletronicos': 0.17,
+                'casa': 0.15,
+                'moda': 0.16,
+                'esportes': 0.15,
+                'livros': 0.13,
+                'outros': 0.16
             }
+        };
+
+        const nomes = {
+            'mercadolivre': 'Mercado Livre',
+            'amazon': 'Amazon',
+            'shopee': 'Shopee',
+            'magalu': 'Magazine Luiza',
+            'americanas': 'Americanas'
         };
 
         document.getElementById('calculatorForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
             const custo = parseFloat(document.getElementById('custo').value);
-            const margem = parseFloat(document.getElementById('margem').value) / 100;
             const categoria = document.getElementById('categoria').value;
-            const peso = parseFloat(document.getElementById('peso').value);
-
-            if (!custo || !margem || !categoria || !peso) {
-                alert('Por favor, preencha todos os campos!');
+            const margem = parseFloat(document.getElementById('margem').value) / 100;
+            const frete = parseFloat(document.getElementById('frete').value) || 0;
+            
+            if (!custo || !categoria || margem < 0) {
+                alert('Por favor, preencha todos os campos obrigatórios!');
                 return;
             }
-
-            const resultados = calcularPrecos(custo, margem, categoria, peso);
-            exibirResultados(resultados, custo, margem);
-        });
-
-        function calcularPrecos(custo, margem, categoria, peso) {
+            
             const resultados = [];
-
-            for (const [key, marketplace] of Object.entries(marketplaces)) {
-                const taxaComissao = marketplace.taxas[categoria] || marketplace.taxas.outros;
-                const custoFrete = peso * marketplace.frete * 10; // Estimativa de frete
+            
+            // Calcular para cada marketplace
+            for (const marketplace in taxas) {
+                const taxa = taxas[marketplace][categoria];
                 
-                // Cálculo do preço de venda
-                const custoTotal = custo + custoFrete;
-                const precoVenda = custoTotal / (1 - margem - taxaComissao);
+                // Fórmula: (Custo + Frete) / (1 - Taxa - Margem)
+                const precoFinal = (custo + frete) / (1 - taxa - margem);
                 
-                // Verificação da margem real
-                const comissao = precoVenda * taxaComissao;
-                const lucroLiquido = precoVenda - custo - custoFrete - comissao;
-                const margemReal = lucroLiquido / precoVenda;
-
                 resultados.push({
-                    marketplace: marketplace.name,
-                    icon: marketplace.icon,
-                    precoVenda: precoVenda,
-                    taxaComissao: taxaComissao,
-                    comissao: comissao,
-                    custoFrete: custoFrete,
-                    lucroLiquido: lucroLiquido,
-                    margemReal: margemReal
+                    marketplace: marketplace,
+                    nome: nomes[marketplace],
+                    preco: precoFinal,
+                    taxa: taxa
                 });
             }
-
-            // Ordenar por preço de venda (menor para maior)
-            resultados.sort((a, b) => a.precoVenda - b.precoVenda);
-
-            return resultados;
-        }
-
-        function exibirResultados(resultados, custo, margem) {
+            
+            // Ordenar por menor preço (melhor opção)
+            resultados.sort((a, b) => a.preco - b.preco);
+            
+            // Exibir resultados
+            exibirResultados(resultados);
+        });
+        
+        function exibirResultados(resultados) {
             const resultsDiv = document.getElementById('results');
-            const resultsGrid = document.getElementById('resultsGrid');
-            const summaryText = document.getElementById('summaryText');
-
-            // Encontrar a melhor opção (maior lucro líquido)
-            const melhorOpcao = resultados.reduce((prev, current) => 
-                (prev.lucroLiquido > current.lucroLiquido) ? prev : current
-            );
-
-            // Atualizar resumo
-            summaryText.innerHTML = `
-                Melhor opção: <strong>${melhorOpcao.marketplace}</strong> com lucro de 
-                <strong>R$ ${melhorOpcao.lucroLiquido.toFixed(2)}</strong> 
-                (${(melhorOpcao.margemReal * 100).toFixed(1)}% de margem)
-            `;
-
-            // Limpar resultados anteriores
-            resultsGrid.innerHTML = '';
-
-            // Criar cards para cada marketplace
-            resultados.forEach(resultado => {
-                const isMelhor = resultado.marketplace === melhorOpcao.marketplace;
+            const resultsList = document.getElementById('resultsList');
+            
+            resultsList.innerHTML = '';
+            
+            resultados.forEach((resultado, index) => {
+                const div = document.createElement('div');
+                div.className = 'result-item' + (index === 0 ? ' best' : '');
                 
-                const card = document.createElement('div');
-                card.className = `marketplace-card ${isMelhor ? 'best' : ''}`;
-                
-                card.innerHTML = `
-                    <div class="marketplace-name">
-                        <span>${resultado.icon}</span>
-                        ${resultado.marketplace}
+                div.innerHTML = `
+                    <div>
+                        <div class="marketplace">${resultado.nome}</div>
+                        <small>Taxa: ${(resultado.taxa * 100).toFixed(1)}%</small>
                     </div>
-                    <div class="price-display">
-                        R$ ${resultado.precoVenda.toFixed(2)}
-                    </div>
-                    <div class="details">
-                        <div><strong>Comissão:</strong> R$ ${resultado.comissao.toFixed(2)} (${(resultado.taxaComissao * 100).toFixed(1)}%)</div>
-                        <div><strong>Frete estimado:</strong> R$ ${resultado.custoFrete.toFixed(2)}</div>
-                        <div><strong>Lucro líquido:</strong> R$ ${resultado.lucroLiquido.toFixed(2)}</div>
-                        <div><strong>Margem real:</strong> ${(resultado.margemReal * 100).toFixed(1)}%</div>
-                    </div>
+                    <div class="price">R$ ${resultado.preco.toFixed(2)}</div>
                 `;
                 
-                resultsGrid.appendChild(card);
+                resultsList.appendChild(div);
             });
-
-            // Mostrar resultados com animação
-            resultsDiv.classList.add('show');
+            
+            resultsDiv.style.display = 'block';
             resultsDiv.scrollIntoView({ behavior: 'smooth' });
         }
-
-        // Formatação automática de valores monetários
-        document.getElementById('custo').addEventListener('input', function(e) {
-            let value = e.target.value;
-            if (value && !isNaN(value)) {
-                e.target.value = parseFloat(value).toFixed(2);
-            }
-        });
     </script>
 </body>
 </html>
