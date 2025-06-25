@@ -33,7 +33,7 @@ app.secret_key = "calculadora_marketplaces_secret_key"
 def landing():
     """Página inicial com landing page comercial."""
     logger.debug("Acessando landing page")
-    return render_template("landing_new.html")
+    return render_template("landing.html")
 
 @app.route("/app")
 def app_index():
